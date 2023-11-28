@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import NavBar from './components/NavBar';
+import styles from "./App.module.css";
+import Container from 'react-bootstrap/Container';
+import { Switch, Route } from 'react-router-dom/cjs/react-router-dom.min';
+import './api/axiosDefaults';
+import SignUpForm from './pages/auth/SignUpForm';
+import SignInForm from './pages/auth/SignInForm';
+import { useCurrentUser } from './contexts/CurrentUserContext';
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const currentUser = useCurrentUser();
+
+    return (
+        <div className={styles.App}>
+            <NavBar />
+            <Container className={styles.Main}>
+                <Switch>
+                    <Route
+                        exact
+                        path="/"
+                        render={() => (
+                            <>
+                                Home Page
+                            </>
+                        )} />
+                    <Route exact path="/signin" render={() => <SignInForm />} />
+                    <Route exact path="/signup" render={() => <SignUpForm />} />
+                    <Route render={() => <NotFound />} />
+                </Switch>
+            </Container>
+        </div>
+    );
 }
 
 export default App;
