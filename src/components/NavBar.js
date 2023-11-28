@@ -8,6 +8,15 @@ import Avatar from './Avatar';
 import axios from 'axios';
 import useClickOutsideToggle from '../hooks/useClickOutsideToggle';
 
+import { MdOutlineLogin } from "react-icons/md";
+import { FaRegUser } from "react-icons/fa6";
+import { SlHome } from "react-icons/sl";
+
+
+
+
+
+
 const NavBar = () => {
     const currentUser = useCurrentUser();
     const setCurrentUser = useSetCurrentUser();
@@ -23,46 +32,32 @@ const NavBar = () => {
         }
     }
 
-    const addPostIcon = (
-        <NavLink
-            className={styles.NavLink}
-            activeClassName={styles.Active}
-            to="/posts/create">
-            <i className="far fa-plus-square"></i>Add Post
-        </NavLink>
-    )
-
     const loggedOutIcons = (
         <>
             <NavLink
                 className={styles.NavLink}
                 activeClassName={styles.Active}
                 to="/signin">
-                <i className="fas fa-sign-in-alt"></i>Sign In
+                <MdOutlineLogin />
+                <span>Sign In</span>
             </NavLink>
             <NavLink
                 className={styles.NavLink}
                 activeClassName={styles.Active}
                 to="/signup">
-                <i className="fas fa-user-plus"></i>Sign Up
+                <FaRegUser /><span>Sign Up</span>
             </NavLink>
         </>
     );
 
     const loggedInIcons = (
         <>
-            <NavLink
+            {/* <NavLink
                 className={styles.NavLink}
                 activeClassName={styles.Active}
                 to="/feed">
                 <i className="fas fa-stream"></i>Feed
-            </NavLink>
-            <NavLink
-                className={styles.NavLink}
-                activeClassName={styles.Active}
-                to="/liked">
-                <i className="fas fa-heart"></i>Liked
-            </NavLink>
+            </NavLink> */}
             <NavLink
                 className={styles.NavLink}
                 to="/"
@@ -71,7 +66,7 @@ const NavBar = () => {
                 }}>
                 <i className="fas fa-sign-out-alt"></i>Sign Out
             </NavLink>
-            <NavLink
+            {/* <NavLink
                 className={styles.NavLink}
                 activeClassName={styles.Active}
                 to={`/profiles/${currentUser?.profile_id}`}
@@ -80,7 +75,7 @@ const NavBar = () => {
                     src={currentUser?.profile_image}
                     text="Profile"
                     height={40} />
-            </NavLink> 
+            </NavLink>  */}
         </>)
 
     return (
@@ -98,14 +93,14 @@ const NavBar = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto text-left">
 
-                        {currentUser && addPostIcon}
                         {currentUser ? loggedInIcons : loggedOutIcons}
 
                         <NavLink exact
                             className={styles.NavLink}
                             activeClassName={styles.Active}
                             to="/">
-                            <i className="fas fa-home"></i>Home
+                            <SlHome/>
+                            <span>Home</span>
                         </NavLink>
                     </Nav>
                 </Navbar.Collapse>

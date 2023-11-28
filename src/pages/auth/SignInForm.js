@@ -49,8 +49,8 @@ const SignInForm = () => {
 
     return (
         <Row className={styles.Row}>
-            <Col className="my-auto py-2 p-md-2" md={6}>
-                <Container className={`${appStyles.Content} p-4 `}>
+            <Col className="my-auto py-2 p-md-2" md={{size: 6}}>
+                <Container className={`${appStyles.Content}`}>
                     <h1 className={styles.Header}>Sign In</h1>
 
                     <Form onSubmit={handleSubmit}>
@@ -98,17 +98,6 @@ const SignInForm = () => {
                         Already have an account? <span>Sign in</span>
                     </Link>
                 </Container>
-            </Col>
-            <Col
-                md={6}
-                className={`my-auto d-none d-md-block p-2 ${styles.SignUpCol}`}
-            >
-                <Image
-                    className={`${appStyles.FillerImage}`}
-                    src={
-                        "https://codeinstitute.s3.amazonaws.com/AdvancedReact/hero2.jpg"
-                    }
-                />
             </Col>
         </Row>
     );
