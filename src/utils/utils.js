@@ -69,9 +69,8 @@ export const checkCellValidity = (grid, index, value) => {
     let iStart = indexMod9 - (indexMod9 % 3);
     let jStart = temp - (temp % 3);
     console.log('start on (' + iStart + ',' + jStart + ')')
-    for (let i = iStart; i < 9; i += 3) {
-        for (let j = jStart; j < 9; j += 3) {
-            
+    for (let i = iStart; i < iStart + 3; i += 1) {
+        for (let j = jStart; j < jStart + 3; j += 1) {
             let comparator = j * 9 + i;
             console.log(`Index (${comparator} : ${grid[comparator]})`);
             if (grid[comparator] === char && comparator !== index) {
