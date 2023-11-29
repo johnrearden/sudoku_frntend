@@ -21,3 +21,5 @@ export const useRedirect = (userAuthStatus) => {
         handleMount();
     }, [history, userAuthStatus])
 }
+
+// Here's a comment to create a merge conflict
