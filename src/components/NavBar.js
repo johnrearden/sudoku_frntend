@@ -1,16 +1,11 @@
 import React from 'react'
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { NavLink } from "react-router-dom";
-import logo from '../assets/logo.png';
 import styles from "../styles/NavBar.module.css";
 import { useCurrentUser, useSetCurrentUser } from '../contexts/CurrentUserContext';
-import Avatar from './Avatar';
 import axios from 'axios';
 import useClickOutsideToggle from '../hooks/useClickOutsideToggle';
 
-import { MdOutlineLogin } from "react-icons/md";
-import { FaRegUser } from "react-icons/fa6";
-import { SlHome } from "react-icons/sl";
 
 
 
@@ -21,7 +16,7 @@ const NavBar = () => {
     const currentUser = useCurrentUser();
     const setCurrentUser = useSetCurrentUser();
 
-    const {expanded, setExpanded, ref} = useClickOutsideToggle();
+    const { expanded, setExpanded, ref } = useClickOutsideToggle();
 
     const handleSignout = async () => {
         try {
@@ -38,14 +33,13 @@ const NavBar = () => {
                 className={styles.NavLink}
                 activeClassName={styles.Active}
                 to="/signin">
-                <MdOutlineLogin />
-                <span>Sign In</span>
+                <i class="fa-solid fa-arrow-right-to-bracket"></i>Login
             </NavLink>
             <NavLink
                 className={styles.NavLink}
                 activeClassName={styles.Active}
                 to="/signup">
-                <FaRegUser /><span>Sign Up</span>
+                <i class="fa-regular fa-user"></i>Sign Up
             </NavLink>
         </>
     );
@@ -64,7 +58,7 @@ const NavBar = () => {
                 onClick={() => {
                     handleSignout();
                 }}>
-                <i className="fas fa-sign-out-alt"></i>Sign Out
+                <i class="fa-solid fa-person-walking-arrow-right"></i>Sign Out
             </NavLink>
             {/* <NavLink
                 className={styles.NavLink}
@@ -83,7 +77,7 @@ const NavBar = () => {
             <Container>
                 <NavLink to="/">
                     <Navbar.Brand>
-                        <img src={logo} alt="logo" height="45"></img>
+                        <h4>Sudoku</h4>
                     </Navbar.Brand>
                 </NavLink>
                 <Navbar.Toggle
@@ -99,8 +93,10 @@ const NavBar = () => {
                             className={styles.NavLink}
                             activeClassName={styles.Active}
                             to="/">
-                            <SlHome/>
-                            <span>Home</span>
+                            <div className='d-flex align-items-center'>
+                            <i class="fa-solid fa-house"></i>Home
+                            </div>
+
                         </NavLink>
                     </Nav>
                 </Navbar.Collapse>

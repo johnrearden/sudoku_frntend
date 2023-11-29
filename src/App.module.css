@@ -29,6 +29,7 @@
 
 * {
     box-sizing: border-box;
+    transition: .2s all;
 }
 
 a {
@@ -37,11 +38,12 @@ a {
 }
 
 a:hover {
+    color: black;
     text-decoration: none;
 }
 
 a:hover i {
-    color: #2142b2;
+    color: black;
     transition: color ease-in-out 0.3s;
 }
 
@@ -59,7 +61,7 @@ i {
 i:hover {
     cursor: pointer;
     transition: color ease-in-out 0.3s;
-    color: #2142b2;
+    color: black;
 }
 
 figure {

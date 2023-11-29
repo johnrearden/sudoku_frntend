@@ -7,6 +7,7 @@ import SignUpForm from './pages/auth/SignUpForm';
 import SignInForm from './pages/auth/SignInForm';
 import { useCurrentUser } from './contexts/CurrentUserContext';
 import NotFound from './components/NotFound';
+import Home from './pages/puzzle/Home';
 
 
 function App() {
@@ -22,9 +23,7 @@ function App() {
                         exact
                         path="/"
                         render={() => (
-                            <>
-                                Home Page
-                            </>
+                            <Home />
                         )} />
                     <Route exact path="/signin" render={() => <SignInForm />} />
                     <Route exact path="/signup" render={() => <SignUpForm />} />

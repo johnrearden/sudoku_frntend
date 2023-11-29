@@ -24,7 +24,9 @@ export const setTokenTimestamp = (data) => {
 }
 
 export const shouldRefreshToken = () => {
-    return !!localStorage.getItem('refreshTokenTimestamp');
+    const shouldRefresh = !!localStorage.getItem('refreshTokenTimestamp');
+    console.log(`shouldRefresh: ${shouldRefresh}`)
+    return shouldRefresh;
 }
 
 export const removeTokenTimestamp = () => {
