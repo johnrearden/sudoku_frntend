@@ -4,7 +4,7 @@ import ChooseDifficulty from './ChooseDifficulty'
 const Home = () => {
     return (
         <>
-            <div><h1 className="text-center mt-5">Sudoku(demo)</h1></div>
+            <div><h1 className="text-center mt-5">Sudoku<small className="text-muted"> (demo)</small></h1></div>
             <ChooseDifficulty />
         </>
 

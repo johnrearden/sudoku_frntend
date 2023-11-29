@@ -8,6 +8,7 @@ import SignInForm from './pages/auth/SignInForm';
 import { useCurrentUser } from './contexts/CurrentUserContext';
 import NotFound from './components/NotFound';
 import Home from './pages/puzzle/Home';
+import PuzzleContainer from './pages/puzzle/PuzzleContainer';
 
 
 function App() {
@@ -19,6 +20,12 @@ function App() {
             <NavBar />
             <Container className={styles.Main}>
                 <Switch>
+                    <Route
+                        exact
+                        path="/get_puzzle/:difficulty"
+                        render={() => (
+                            <PuzzleContainer />
+                        )} />
                     <Route
                         exact
                         path="/"

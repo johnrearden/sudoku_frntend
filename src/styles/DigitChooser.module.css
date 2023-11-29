@@ -1,0 +1,24 @@
+:root {
+    --size: clamp(25px, calc(100vw / 12), 40px);
+}
+
+.Digit {
+    background-color: navy;
+    color: white;
+    border-radius: 10px;
+    width: calc(var(--size) - 4px);
+    height: calc(var(--size) - 4px);
+    margin: 0 2px 0 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Digit:hover {
+    background-color: blue;
+    cursor: pointer;
+}
+
+.Inactive {
+    background-color: grey;
+}

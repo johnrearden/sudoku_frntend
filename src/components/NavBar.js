@@ -7,11 +7,6 @@ import axios from 'axios';
 import useClickOutsideToggle from '../hooks/useClickOutsideToggle';
 
 
-
-
-
-
-
 const NavBar = () => {
     const currentUser = useCurrentUser();
     const setCurrentUser = useSetCurrentUser();
@@ -33,13 +28,13 @@ const NavBar = () => {
                 className={styles.NavLink}
                 activeClassName={styles.Active}
                 to="/signin">
-                <i class="fa-solid fa-arrow-right-to-bracket"></i>Login
+                <i className="fa-solid fa-arrow-right-to-bracket"></i>Login
             </NavLink>
             <NavLink
                 className={styles.NavLink}
                 activeClassName={styles.Active}
                 to="/signup">
-                <i class="fa-regular fa-user"></i>Sign Up
+                <i className="fa-regular fa-user"></i>Sign Up
             </NavLink>
         </>
     );
@@ -58,7 +53,7 @@ const NavBar = () => {
                 onClick={() => {
                     handleSignout();
                 }}>
-                <i class="fa-solid fa-person-walking-arrow-right"></i>Sign Out
+                <i className="fa-solid fa-person-walking-arrow-right"></i>Sign Out
             </NavLink>
             {/* <NavLink
                 className={styles.NavLink}
@@ -94,7 +89,7 @@ const NavBar = () => {
                             activeClassName={styles.Active}
                             to="/">
                             <div className='d-flex align-items-center'>
-                            <i class="fa-solid fa-house"></i>Home
+                            <i className="fa-solid fa-house"></i>Home
                             </div>
 
                         </NavLink>

@@ -1,12 +1,16 @@
 import React from 'react'
 import { Button, Row } from 'react-bootstrap'
 import btnStyles from '../../styles/Button.module.css'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom'
+
 
 const ChooseDifficulty = () => {
 
+    const history = useHistory();
+
     const handleClick = (event) => {
         const difficulty = event.target.getAttribute("data-difficulty");
-        console.log('difficulty : ' + difficulty);
+        history.push(`/get_puzzle/${difficulty}`)
     }
 
     return (
