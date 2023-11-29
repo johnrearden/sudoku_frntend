@@ -3,9 +3,10 @@ import { useParams } from 'react-router-dom/cjs/react-router-dom'
 import { DIFFICULTY_LEVELS } from '../../constants/constants';
 import Puzzle from '../../components/Puzzle';
 import { axiosReq } from '../../api/axiosDefaults';
-import { Row } from 'react-bootstrap';
+import { Button, Row } from 'react-bootstrap';
 import DigitChooser from '../../components/DigitChooser';
-import { checkCellValidity } from '../../utils/utils';
+import { checkCellValidity, replaceCharAt } from '../../utils/utils';
+
 
 const PuzzleContainer = () => {
 
@@ -13,28 +14,76 @@ const PuzzleContainer = () => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [selectedCellIndex, setSelectedCellIndex] = useState(0);
 
+    const [warningGroup, setWarningGroup] = useState([]);
+    const [clashingCell, setClashingCell] = useState(-1);
+
     const [puzzleData, setPuzzleData] = useState({});
+    const [undoStack, setUndoStack] = useState([]);
 
     const handleDigitChoice = (digit) => {
 
-        const {isValid, clashingCell} = checkCellValidity(
+        const currentSelectedCellValue = puzzleData.grid[selectedCellIndex];
+
+        const { isValid, clashingCell, group } = checkCellValidity(
             puzzleData.grid, selectedCellIndex, digit);
-        console.log(isValid + ' (' + clashingCell + ')')
+
+        if (!isValid) {
+            setWarningGroup(group);
+            setClashingCell(clashingCell);
+        }
 
         setPuzzleData(prevData => {
             const index = selectedCellIndex;
             const grid = prevData.grid;
-            const newString = grid.substring(0, index) + digit.toString() + grid.substring(index + 1, grid.length);
+            const newGrid = replaceCharAt(grid, index, digit);
 
             return {
                 ...prevData,
-                grid: newString,
+                grid: newGrid,
             }
         })
+
+        setUndoStack(prev => {
+            const undoItem = {
+                index: selectedCellIndex, 
+                previousValue: currentSelectedCellValue
+            }
+            console.log(prev);
+            return [...prev, undoItem];
+        });
     }
 
     const handleCellSelection = (index) => {
-        setSelectedCellIndex(index);
+        if (warningGroup.length === 0) {
+            setSelectedCellIndex(index);
+        }
+    }
+
+    const deleteSelectedCell = () => {
+        setWarningGroup([]);
+        setClashingCell(-1);
+        const newGrid = replaceCharAt(puzzleData.grid, selectedCellIndex, '-');
+        setPuzzleData(prev => ({
+            ...prev,
+            grid: newGrid,
+        }))
+    }
+
+    const handleUndo = () => {
+        if (undoStack.length < 1) {
+            console.log('Cant undo ... nothing in the stack.')
+            return;
+        }
+        const [itemToUndo] = undoStack[undoStack.length - 1];
+        const {index, previousValue} = itemToUndo;
+        setPuzzleData(prev => ({
+            ...prev,
+            grid: replaceCharAt(puzzleData.grid, index, previousValue)
+        }))
+        setUndoStack(prev => {
+            const newStack = prev.pop();
+            return [...newStack];
+        });
     }
 
     useEffect(() => {
@@ -52,8 +101,6 @@ const PuzzleContainer = () => {
         handleMount();
     }, [])
 
-    console.log(puzzleData);
-
     return (
         <>
             <Row className="d-flex justify-content-center mt-3">
@@ -61,16 +108,30 @@ const PuzzleContainer = () => {
 
             </Row>
             <Row className="d-flex justify-content-center mt-2">
-                <Puzzle 
+                <Puzzle
                     grid={puzzleData?.grid}
                     selectedCell={selectedCellIndex}
-                    handleCellSelection={handleCellSelection} />
+                    handleCellSelection={handleCellSelection}
+                    warningGroup={warningGroup}
+                    clashingCell={clashingCell} />
             </Row>
             <Row className="d-flex justify-content-center mt-2">
-                <DigitChooser 
+                <DigitChooser
                     activeDigits={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
-                    handleDigitChoice={handleDigitChoice}/>
+                    handleDigitChoice={handleDigitChoice} />
 
+            </Row>
+            <Row className="d-flex justify-content-center mt-2">
+                <Button
+                    className="btn btn-danger rounded mx-1"
+                    onClick={deleteSelectedCell}>
+                    <i class="fa-solid fa-eraser"></i>
+                </Button>
+                <Button
+                    className="btn btn-warning rounded mx-1"
+                    onClick={handleUndo}>
+                    <i class="fa-solid fa-arrow-rotate-left"></i>
+                </Button>
             </Row>
             Selected Cell: {selectedCellIndex}
         </>

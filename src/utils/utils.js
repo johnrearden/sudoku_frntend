@@ -1,5 +1,6 @@
 import jwtDecode from "jwt-decode"
 import { axiosReq } from "../api/axiosDefaults"
+import DigitChooser from "../components/DigitChooser"
 
 export const fetchMoreData = async (resource, setResource) => {
     try {
@@ -37,44 +38,41 @@ export const checkCellValidity = (grid, index, value) => {
     const char = value.toString();
     let valid = true;
     let clashingCellIndex = -1;
+    let group = [];
 
     // Check row
-    console.log('checking row')
     let start = Math.floor(index / 9) * 9;
     for (let i = start; i < start + 9; i++) {
-        console.log(`Index (${i} : ${grid[i]})`);
         if (grid[i] === char && i !== index) {
             valid = false;
             clashingCellIndex = i;
+            group = getRow(index);
             break;
         }
     }
 
     // Check column
-    console.log('checking column')
     start = index % 9;
-    for (let j = start; j <= 81; j+=9) {
-        console.log(`Index (${j} : ${grid[j]})`);
+    for (let j = start; j <= 81; j += 9) {
         if (grid[j] === char && j !== index) {
             valid = false;
             clashingCellIndex = j;
+            group = getColumn(index);
             break;
         }
     }
 
     // Check square
-    console.log('checking square');
     let temp = Math.floor(index / 9);
     let indexMod9 = index % 9;
     let iStart = indexMod9 - (indexMod9 % 3);
     let jStart = temp - (temp % 3);
-    console.log('start on (' + iStart + ',' + jStart + ')')
     for (let i = iStart; i < iStart + 3; i += 1) {
         for (let j = jStart; j < jStart + 3; j += 1) {
             let comparator = j * 9 + i;
-            console.log(`Index (${comparator} : ${grid[comparator]})`);
             if (grid[comparator] === char && comparator !== index) {
                 valid = false;
+                group = getSquare(index);
                 clashingCellIndex = comparator;
             }
         }
@@ -83,5 +81,45 @@ export const checkCellValidity = (grid, index, value) => {
     return {
         isValid: valid,
         clashingCell: clashingCellIndex,
+        group: group,
     }
+}
+
+export const getRow = (index) => {
+    let start = Math.floor(index / 9) * 9;
+    let row = [];
+    for (let i = start; i < start + 9; i++) {
+        row.push(i);
+    }
+    return row;
+}
+
+export const getColumn = (index) => {
+    let start = index % 9;
+    let col = [];
+    for (let j = start; j <= 81; j += 9) {
+        col.push(j);
+    }
+    return col;
+}
+
+export const getSquare = (index) => {
+    let temp = Math.floor(index / 9);
+    let indexMod9 = index % 9;
+    let iStart = indexMod9 - (indexMod9 % 3);
+    let jStart = temp - (temp % 3);
+
+    let square = [];
+    for (let i = iStart; i < iStart + 3; i += 1) {
+        for (let j = jStart; j < jStart + 3; j += 1) {
+            square.push(j * 9 + i);
+        }
+    }
+    return square;
+}
+
+export const replaceCharAt = (string, index, char) => {
+    return string.substring(0, index)
+        + char.toString()
+        + string.substring(index + 1, string.length);
 }
