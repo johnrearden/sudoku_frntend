@@ -1,6 +1,5 @@
 import jwtDecode from "jwt-decode"
 import { axiosReq } from "../api/axiosDefaults"
-import DigitChooser from "../components/DigitChooser"
 
 export const fetchMoreData = async (resource, setResource) => {
     try {

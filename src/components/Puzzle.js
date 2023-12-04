@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PuzzleCell from './PuzzleCell'
 import styles from '../styles/Puzzle.module.css'
 import { Row } from 'react-bootstrap'

@@ -5,7 +5,6 @@ import { Switch, Route } from 'react-router-dom/cjs/react-router-dom.min';
 import './api/axiosDefaults';
 import SignUpForm from './pages/auth/SignUpForm';
 import SignInForm from './pages/auth/SignInForm';
-import { useCurrentUser } from './contexts/CurrentUserContext';
 import NotFound from './components/NotFound';
 import Home from './pages/puzzle/Home';
 import PuzzleContainer from './pages/puzzle/PuzzleContainer';
@@ -13,7 +12,7 @@ import PuzzleContainer from './pages/puzzle/PuzzleContainer';
 
 function App() {
 
-    const currentUser = useCurrentUser();
+    //const currentUser = useCurrentUser();
 
     return (
         <div className={styles.App}>

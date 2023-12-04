@@ -1,4 +1,4 @@
-import React, { isValidElement, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom/cjs/react-router-dom'
 import { DIFFICULTY_LEVELS } from '../../constants/constants';
 import Puzzle from '../../components/Puzzle';
@@ -11,13 +11,18 @@ import { checkCellValidity, replaceCharAt } from '../../utils/utils';
 const PuzzleContainer = () => {
 
     const { difficulty } = useParams();
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [puzzleData, setPuzzleData] = useState({});
+    
+    // Current cell selected by user.
     const [selectedCellIndex, setSelectedCellIndex] = useState(0);
 
+    // The row, col or square in which a digit appears twice
     const [warningGroup, setWarningGroup] = useState([]);
+
+    // The cell that duplicated the value of the current selected cell.
     const [clashingCell, setClashingCell] = useState(-1);
 
-    const [puzzleData, setPuzzleData] = useState({});
+    
     const [undoStack, setUndoStack] = useState([]);
 
     const handleDigitChoice = (digit) => {
@@ -74,15 +79,16 @@ const PuzzleContainer = () => {
             console.log('Cant undo ... nothing in the stack.')
             return;
         }
-        const [itemToUndo] = undoStack[undoStack.length - 1];
+        const itemToUndo = undoStack[undoStack.length - 1];
+        console.log(`item to undo : ${itemToUndo}`)
         const {index, previousValue} = itemToUndo;
         setPuzzleData(prev => ({
             ...prev,
             grid: replaceCharAt(puzzleData.grid, index, previousValue)
         }))
         setUndoStack(prev => {
-            const newStack = prev.pop();
-            return [...newStack];
+            prev.pop()
+            return prev;
         });
     }
 
@@ -93,13 +99,14 @@ const PuzzleContainer = () => {
                 const { data } = await axiosReq.get(url);
                 console.log(data);
                 setPuzzleData(data);
-                setIsLoaded(true);
             } catch (err) {
                 console.log(err);
             }
         }
         handleMount();
     }, [])
+
+    console.log(undoStack);
 
     return (
         <>
