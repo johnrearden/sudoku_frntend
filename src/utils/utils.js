@@ -35,6 +35,14 @@ export const removeTokenTimestamp = () => {
 
 export const checkCellValidity = (grid, index, value) => {
     const char = value.toString();
+    if (char === '-') {
+        return {
+            isValid: true,
+            clashingCell: -1,
+            group: [],
+        }
+    }
+
     let valid = true;
     let clashingCellIndex = -1;
     let group = [];

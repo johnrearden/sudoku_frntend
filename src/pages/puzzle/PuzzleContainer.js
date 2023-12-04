@@ -25,23 +25,31 @@ const PuzzleContainer = () => {
     
     const [undoStack, setUndoStack] = useState([]);
 
-    const handleDigitChoice = (digit) => {
-
-        const currentSelectedCellValue = puzzleData.grid[selectedCellIndex];
-
+    // Tests if a digit is valid in the current selected cell, and displays
+    // the warnings if not.
+    const validityCheck = (digit) => {
         const { isValid, clashingCell, group } = checkCellValidity(
             puzzleData.grid, selectedCellIndex, digit);
-
         if (!isValid) {
             setWarningGroup(group);
             setClashingCell(clashingCell);
+        } else {
+            if (warningGroup.length > 0) {
+                setWarningGroup([]);
+                setClashingCell(-1);
+            }
         }
+    }
+
+    const handleDigitChoice = (digit) => {
+        const currentSelectedCellValue = puzzleData.grid[selectedCellIndex];
+
+        validityCheck(digit);
 
         setPuzzleData(prevData => {
             const index = selectedCellIndex;
             const grid = prevData.grid;
             const newGrid = replaceCharAt(grid, index, digit);
-
             return {
                 ...prevData,
                 grid: newGrid,
@@ -53,7 +61,6 @@ const PuzzleContainer = () => {
                 index: selectedCellIndex, 
                 previousValue: currentSelectedCellValue
             }
-            console.log(prev);
             return [...prev, undoItem];
         });
     }
@@ -76,20 +83,23 @@ const PuzzleContainer = () => {
 
     const handleUndo = () => {
         if (undoStack.length < 1) {
-            console.log('Cant undo ... nothing in the stack.')
+            alert('This is the original puzzle - can\'t undo from here')
             return;
         }
         const itemToUndo = undoStack[undoStack.length - 1];
-        console.log(`item to undo : ${itemToUndo}`)
         const {index, previousValue} = itemToUndo;
         setPuzzleData(prev => ({
             ...prev,
             grid: replaceCharAt(puzzleData.grid, index, previousValue)
         }))
+
         setUndoStack(prev => {
             prev.pop()
             return prev;
         });
+
+        console.log('previous value is ' + previousValue);
+        validityCheck(previousValue);
     }
 
     useEffect(() => {
