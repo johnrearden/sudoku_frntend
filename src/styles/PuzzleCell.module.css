@@ -30,3 +30,25 @@
     color: red;
 }
 
+.spin_to_correct {
+    animation: letter_spin .2s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes letter_spin {
+    from {
+        transform: rotateY(0deg);
+    }
+
+    50% {
+        transform: rotateY(90deg);
+    }
+
+    to {
+        box-shadow: inset 0px 0px 4px 2px navy;
+        color: navy;
+        transform: rotateY(0deg);
+    }
+}
+

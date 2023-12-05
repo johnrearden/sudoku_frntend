@@ -8,11 +8,10 @@ import SignInForm from './pages/auth/SignInForm';
 import NotFound from './components/NotFound';
 import Home from './pages/puzzle/Home';
 import PuzzleContainer from './pages/puzzle/PuzzleContainer';
+import ProfilePage from './pages/profile/ProfilePage';
 
 
 function App() {
-
-    //const currentUser = useCurrentUser();
 
     return (
         <div className={styles.App}>
@@ -31,6 +30,7 @@ function App() {
                         render={() => (
                             <Home />
                         )} />
+                    <Route exact path="/profile/:id" render={() => <ProfilePage />}/>
                     <Route exact path="/signin" render={() => <SignInForm />} />
                     <Route exact path="/signup" render={() => <SignUpForm />} />
                     <Route render={() => <NotFound />} />

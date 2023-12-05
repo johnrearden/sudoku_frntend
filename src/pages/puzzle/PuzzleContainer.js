@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom/cjs/react-router-dom'
-import { DIFFICULTY_LEVELS } from '../../constants/constants';
-import Puzzle from '../../components/Puzzle';
 import { axiosReq } from '../../api/axiosDefaults';
-import { Button, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import DigitChooser from '../../components/DigitChooser';
+import Puzzle from '../../components/Puzzle';
+import { CompletenessDisplay } from '../../components/CompletenessDisplay';
 import { checkCellValidity, replaceCharAt } from '../../utils/utils';
+import { DIFFICULTY_LEVELS } from '../../constants/constants';
+import styles from '../../styles/PuzzleContainer.module.css';
 
 
 const PuzzleContainer = () => {
 
     const { difficulty } = useParams();
     const [puzzleData, setPuzzleData] = useState({});
-    
+    const [completeness, setCompleteness] = useState(0);
+
     // Current cell selected by user.
     const [selectedCellIndex, setSelectedCellIndex] = useState(0);
 
@@ -22,12 +25,12 @@ const PuzzleContainer = () => {
     // The cell that duplicated the value of the current selected cell.
     const [clashingCell, setClashingCell] = useState(-1);
 
-    
+
     const [undoStack, setUndoStack] = useState([]);
 
     // Tests if a digit is valid in the current selected cell, and displays
     // the warnings if not.
-    const validityCheck = (digit) => {
+    const performValidityCheck = (digit) => {
         const { isValid, clashingCell, group } = checkCellValidity(
             puzzleData.grid, selectedCellIndex, digit);
         if (!isValid) {
@@ -44,7 +47,7 @@ const PuzzleContainer = () => {
     const handleDigitChoice = (digit) => {
         const currentSelectedCellValue = puzzleData.grid[selectedCellIndex];
 
-        validityCheck(digit);
+        performValidityCheck(digit);
 
         setPuzzleData(prevData => {
             const index = selectedCellIndex;
@@ -58,7 +61,7 @@ const PuzzleContainer = () => {
 
         setUndoStack(prev => {
             const undoItem = {
-                index: selectedCellIndex, 
+                index: selectedCellIndex,
                 previousValue: currentSelectedCellValue
             }
             return [...prev, undoItem];
@@ -87,7 +90,7 @@ const PuzzleContainer = () => {
             return;
         }
         const itemToUndo = undoStack[undoStack.length - 1];
-        const {index, previousValue} = itemToUndo;
+        const { index, previousValue } = itemToUndo;
         setPuzzleData(prev => ({
             ...prev,
             grid: replaceCharAt(puzzleData.grid, index, previousValue)
@@ -97,9 +100,7 @@ const PuzzleContainer = () => {
             prev.pop()
             return prev;
         });
-
-        console.log('previous value is ' + previousValue);
-        validityCheck(previousValue);
+        performValidityCheck(previousValue);
     }
 
     useEffect(() => {
@@ -107,19 +108,23 @@ const PuzzleContainer = () => {
             try {
                 const url = `/get_random_existing_instance/${difficulty}/`;
                 const { data } = await axiosReq.get(url);
-                console.log(data);
                 setPuzzleData(data);
             } catch (err) {
                 console.log(err);
             }
         }
         handleMount();
-    }, [])
+    }, [difficulty])
 
-    console.log(undoStack);
+    useEffect(() => {
+        if (puzzleData.grid != null) {
+            const emptyCells = puzzleData.grid.split('').filter(chr => chr !== '-');
+            setCompleteness(emptyCells.length / 81 * 100);
+        }
+    }, [puzzleData])
 
     return (
-        <>
+        <Container>
             <Row className="d-flex justify-content-center mt-3">
                 <p>Difficulty : {DIFFICULTY_LEVELS[difficulty]}</p>
 
@@ -130,7 +135,8 @@ const PuzzleContainer = () => {
                     selectedCell={selectedCellIndex}
                     handleCellSelection={handleCellSelection}
                     warningGroup={warningGroup}
-                    clashingCell={clashingCell} />
+                    clashingCell={clashingCell}
+                    completed={completeness === 100} />
             </Row>
             <Row className="d-flex justify-content-center mt-2">
                 <DigitChooser
@@ -139,19 +145,26 @@ const PuzzleContainer = () => {
 
             </Row>
             <Row className="d-flex justify-content-center mt-2">
-                <Button
-                    className="btn btn-danger rounded mx-1"
+                <button
+                    className={styles.icon_button}
                     onClick={deleteSelectedCell}>
-                    <i class="fa-solid fa-eraser"></i>
-                </Button>
-                <Button
-                    className="btn btn-warning rounded mx-1"
+                    <i className="fa-solid fa-eraser"></i>
+                </button>
+                <button
+                    className={styles.icon_button}
                     onClick={handleUndo}>
-                    <i class="fa-solid fa-arrow-rotate-left"></i>
-                </Button>
+                    <i className="fa-solid fa-arrow-rotate-left"></i>
+                </button>
             </Row>
-            Selected Cell: {selectedCellIndex}
-        </>
+            <Row className="mt-2">
+                <Col md={{ span: 4, offset: 4 }} className="border">
+                    <CompletenessDisplay
+                        completenessPercentage={Math.round(completeness)}
+                        shorthand />
+                </Col>
+            </Row>
+            <div>Selected Cell: {selectedCellIndex}</div>
+        </Container>
     )
 }
 

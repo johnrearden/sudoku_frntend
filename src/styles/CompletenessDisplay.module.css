@@ -1,0 +1,47 @@
+:root {
+    --mainColor: navy;
+}
+
+.container {
+    position: relative;
+    height: 30px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    background-color: white;
+}
+
+.underlayer {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    vertical-align: middle;
+    height: 100%;
+    color: var(--mainColor);
+    background-color: white;
+    border: 2px solid var(--mainColor);
+    border-radius: 5px;
+}
+
+.overlayer {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    vertical-align: middle;
+    height: 100%;
+    color: white;
+    background-color:  var(--mainColor);
+    border: 2px solid var(--mainColor);
+    border-radius: 5px;
+
+}
+
+.clip_me {
+    clip-path: polygon(0% 0%, 40% 0%, 40% 100%, 0% 100%);
+}

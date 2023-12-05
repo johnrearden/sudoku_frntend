@@ -15,7 +15,7 @@ const ChooseDifficulty = () => {
 
     return (
         <>
-            <Row className="d-flex justify-content-center mt-5">
+            <Row className="d-flex justify-content-center text-center mt-5 border">
                 <h5>Choose Difficulty Level</h5>
             </Row>
 

@@ -31,7 +31,9 @@ export const CurrentUserProvider = ({ children }) => {
 
     useMemo(() => {
         axiosReq.interceptors.request.use(
+            
             async (config) => {
+                
                 if (shouldRefreshToken()) {
                     try {
                         await axios.post('dj-rest-auth/token/refresh/')

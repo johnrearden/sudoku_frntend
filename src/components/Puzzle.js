@@ -8,7 +8,8 @@ const Puzzle = ({
     selectedCell, 
     handleCellSelection, 
     warningGroup, 
-    clashingCell }) => {
+    clashingCell,
+    completed }) => {
 
     const cells = grid?.split("").map((char, idx) => (
         <PuzzleCell
@@ -18,6 +19,7 @@ const Puzzle = ({
             selected={idx===selectedCell}
             warning={warningGroup.includes(idx)}
             illegal={idx===clashingCell}
+            correct={completed}
             handleSelection={handleCellSelection}/>
     ))
 

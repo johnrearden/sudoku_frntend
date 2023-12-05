@@ -41,12 +41,12 @@ const NavBar = () => {
 
     const loggedInIcons = (
         <>
-            {/* <NavLink
+            <NavLink
                 className={styles.NavLink}
                 activeClassName={styles.Active}
-                to="/feed">
-                <i className="fas fa-stream"></i>Feed
-            </NavLink> */}
+                to={`/profile/${currentUser?.profile_id}`}>
+                <i className="fa-solid fa-user"></i>Profile
+            </NavLink>
             <NavLink
                 className={styles.NavLink}
                 to="/"
