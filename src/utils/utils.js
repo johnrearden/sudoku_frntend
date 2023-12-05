@@ -129,3 +129,21 @@ export const replaceCharAt = (string, index, char) => {
         + char.toString()
         + string.substring(index + 1, string.length);
 }
+
+export const getExhaustedDigits = (grid) => {
+    const array = new Array(10).fill(0);
+    const exhaustedDigits = []
+    for (let i = 0; i < 81; i++) {
+        const char = grid.charAt(i);
+        if (char !== '-') {
+            const value = parseInt(grid.charAt(i));
+            array[value]++;
+        }
+    }
+    for (let i = 1; i <= 10; i++) {
+        if (array[i] === 9) {
+            exhaustedDigits.push(i);
+        }
+    }
+    return exhaustedDigits;
+}

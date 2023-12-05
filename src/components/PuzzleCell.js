@@ -30,20 +30,18 @@ const PuzzleCell = (props) => {
             warningClass,
             clashing,
             offending].join(' '));
-    }, [props])
+    }, [selected, warning, illegal])
 
     // Give small random delay when 'correct' prop changes before 
     // applying the animation style.
     useEffect(() => {
         if (correct) {
-            console.log('changed');
             const waitTime = (index % 9) * 30;
             setTimeout(() => {
-                console.log('correct changed')
                 setClassName(`${styles.Cell} ${styles.spin_to_correct}`);
             }, waitTime);
         }
-    }, [correct])
+    }, [correct, index])
 
     return (
         <div

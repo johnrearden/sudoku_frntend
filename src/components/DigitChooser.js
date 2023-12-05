@@ -3,19 +3,21 @@ import styles from '../styles/DigitChooser.module.css'
 
 const DigitChooser = (props) => {
 
-    const { handleDigitChoice } = props;
+    const { handleDigitChoice, exhaustedDigits } = props;
 
     const digits = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-    const buttons = digits.map(digit => (
+    const buttons = digits.map(digit => {
+        const active = !exhaustedDigits.includes(digit);
+        return (
         <div
-            className={styles.Digit}
+            className={active ? styles.Digit : styles.Inactive_Digit}
             key={digit}
-            onClick={() => handleDigitChoice(digit)}
+            onClick={active ? () => handleDigitChoice(digit) : null}
         >
             {digit}
         </div>
-    ))
+    )})
 
     return (
         <>

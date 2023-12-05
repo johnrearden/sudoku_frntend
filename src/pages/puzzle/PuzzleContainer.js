@@ -5,7 +5,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import DigitChooser from '../../components/DigitChooser';
 import Puzzle from '../../components/Puzzle';
 import { CompletenessDisplay } from '../../components/CompletenessDisplay';
-import { checkCellValidity, replaceCharAt } from '../../utils/utils';
+import { checkCellValidity, getExhaustedDigits, replaceCharAt } from '../../utils/utils';
 import { DIFFICULTY_LEVELS } from '../../constants/constants';
 import styles from '../../styles/PuzzleContainer.module.css';
 
@@ -15,6 +15,7 @@ const PuzzleContainer = () => {
     const { difficulty } = useParams();
     const [puzzleData, setPuzzleData] = useState({});
     const [completeness, setCompleteness] = useState(0);
+    const [exhaustedDigits, setExhaustedDigits] = useState([]);
 
     // Current cell selected by user.
     const [selectedCellIndex, setSelectedCellIndex] = useState(0);
@@ -66,6 +67,7 @@ const PuzzleContainer = () => {
             }
             return [...prev, undoItem];
         });
+
     }
 
     const handleCellSelection = (index) => {
@@ -121,15 +123,24 @@ const PuzzleContainer = () => {
             const emptyCells = puzzleData.grid.split('').filter(chr => chr !== '-');
             setCompleteness(emptyCells.length / 81 * 100);
         }
+        if (puzzleData.grid) {
+            setExhaustedDigits(getExhaustedDigits(puzzleData.grid));
+        }
     }, [puzzleData])
 
     return (
         <Container>
             <Row className="d-flex justify-content-center mt-3">
-                <p>Difficulty : {DIFFICULTY_LEVELS[difficulty]}</p>
-
+                <p>{DIFFICULTY_LEVELS[difficulty].toUpperCase()}</p>
             </Row>
-            <Row className="d-flex justify-content-center mt-2">
+            <Row className="mt-2">
+                <Col xs={{ span: 8, offset: 2}} sm={{ span: 6, offset: 3}} md={{ span: 4, offset: 4 }}>
+                    <CompletenessDisplay
+                        completenessPercentage={Math.round(completeness)}
+                        shorthand />
+                </Col>
+            </Row>
+            <Row className="d-flex justify-content-center mt-4">
                 <Puzzle
                     grid={puzzleData?.grid}
                     selectedCell={selectedCellIndex}
@@ -140,7 +151,7 @@ const PuzzleContainer = () => {
             </Row>
             <Row className="d-flex justify-content-center mt-2">
                 <DigitChooser
-                    activeDigits={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
+                    exhaustedDigits={ exhaustedDigits }
                     handleDigitChoice={handleDigitChoice} />
 
             </Row>
@@ -156,14 +167,7 @@ const PuzzleContainer = () => {
                     <i className="fa-solid fa-arrow-rotate-left"></i>
                 </button>
             </Row>
-            <Row className="mt-2">
-                <Col md={{ span: 4, offset: 4 }} className="border">
-                    <CompletenessDisplay
-                        completenessPercentage={Math.round(completeness)}
-                        shorthand />
-                </Col>
-            </Row>
-            <div>Selected Cell: {selectedCellIndex}</div>
+            
         </Container>
     )
 }
