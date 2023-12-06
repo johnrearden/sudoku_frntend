@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { Navbar, Nav, Container, Form } from 'react-bootstrap';
+import { Navbar, Nav, Container, Form, Button } from 'react-bootstrap';
 import { NavLink } from "react-router-dom";
 import styles from "../styles/NavBar.module.css";
+import btnStyles from "../styles/Button.module.css";
 import { useCurrentUser, useSetCurrentUser } from '../contexts/CurrentUserContext';
 import axios from 'axios';
 import useClickOutsideToggle from '../hooks/useClickOutsideToggle';
@@ -18,7 +19,7 @@ const NavBar = () => {
 
     const [isChecked, setIsChecked] = useState(theme === 'light');
 
-    const handleToggle = () => {
+    const handleThemeToggle = () => {
         setTheme(theme === 'light' ? 'dark' : 'light');
         setIsChecked(!isChecked);
     }
@@ -86,6 +87,18 @@ const NavBar = () => {
                     onClick={() => setExpanded(!expanded)} />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto text-left">
+                        
+                        {/* Button to toggle light/dark theme */}
+                        <button
+                            className={`${btnStyles.Button}`}
+                            onClick={handleThemeToggle}
+                        >
+                            {theme === 'light' ? (
+                                <i className="fa-solid fa-moon"></i>
+                            ) : (
+                                <i className="fa-solid fa-sun"></i>
+                            )}
+                        </button>
 
                         {currentUser ? loggedInIcons : loggedOutIcons}
 
@@ -99,19 +112,11 @@ const NavBar = () => {
                             </div>
 
                         </NavLink>
-                        <Form>
-                            <Form.Check
-                                type="switch"
-                                id="toggle-switch"
-                                label="Toggle"
-                                checked={isChecked}
-                                onChange={handleToggle}
-                            />
-                        </Form>
+
                     </Nav>
                 </Navbar.Collapse>
             </Container >
-        </Navbar>
+        </Navbar >
 
     )
 }

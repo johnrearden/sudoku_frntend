@@ -155,20 +155,20 @@ const PuzzleContainer = () => {
                     clashingCell={clashingCell}
                     completed={completeness === 100} />
             </Row>
-            <Row className="d-flex justify-content-center mt-2">
+            <Row className="d-flex justify-content-center mt-3">
                 <DigitChooser
                     exhaustedDigits={ exhaustedDigits }
                     handleDigitChoice={handleDigitChoice} />
 
             </Row>
-            <Row className="d-flex justify-content-center mt-2">
+            <Row className="d-flex justify-content-center mt-3">
                 <Button
-                    className={btnStyles.Button}
+                    className={`${btnStyles.Button} mx-2`}
                     onClick={deleteSelectedCell}>
                     <i className="fa-solid fa-eraser"></i>
                 </Button>
                 <Button
-                    className={btnStyles.Button}
+                    className={`${btnStyles.Button} mx-2`}
                     onClick={handleUndo}>
                     <i className="fa-solid fa-arrow-rotate-left"></i>
                 </Button>

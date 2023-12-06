@@ -12,7 +12,7 @@ const PuzzleCell = (props) => {
         handleSelection,
         correct } = props;
 
-    const [className, setClassName] = useState("");
+    const [className, setClassName] = useState(styles.Cell);
 
     const isDigit = (string) => {
         return string >= "0" && string <= "9";

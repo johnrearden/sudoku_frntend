@@ -2,38 +2,41 @@
     font-size: 0.8rem;
     align-self: center;
     border-radius: 100px;
-    border-color: transparent;
     padding: 4px 10px;
     margin-left: 2px;
     margin-right: 2px;
-    min-width: 75px;
-    color: var(--bg-color) !important;
-    background-color: var(--fg-color) !important;
+    min-width: 50px;
+    background-color: var(--brgt-color) !important;
+    color: var(--fg-color) !important;
+    border: 2px solid var(--fg-color);
 }
 
 .Button:hover {
     opacity: 0.8;
     border-color: transparent;
     cursor: pointer;
-    background-color: var(--thrd-color) !important;
-    color: var(--fg-color) !important;
-    box-shadow: inset 0px 0px 4px 2px var(--scnd-color);
+    color: var(--brgt-color) !important;
+    background-color: var(--fg-color) !important;
+    border: 2px solid transparent;
 }
 
 .Button i {
-    color: var(--bg-color);
+    color: inherit;
 }
 
 .Button:hover:active {
-    background-color: var(--thrd-color) !important;
+    background-color: var(--brgt-color) !important;
+    border: none;
 }
 
 .Button:active {
-    background-color: var(--thrd-color) !important;
+    background-color: var(--brgt-color) !important;
+    border: none;
 }
 
-.Button:focus {
-    background-color: var(--thrd-color) !important;
+.Button:focus, .Button:selected {
+    background-color: var(--brgt-color) !important;
+    border: none;
 }
 
 .Wide {

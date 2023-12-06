@@ -6,6 +6,7 @@
     width: var(--size);
     height: var(--size);
     background-color: var(--thrd-color);
+    color: var(--fg-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,8 +47,8 @@
     }
 
     to {
-        box-shadow: inset 0px 0px 4px 2px navy;
-        color: navy;
+        box-shadow: inset 0px 0px 4px 2px var(--fg-color);
+        color: var(--fg-color);
         transform: rotateY(0deg);
     }
 }
