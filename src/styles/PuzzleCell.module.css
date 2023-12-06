@@ -5,29 +5,29 @@
 .Cell {
     width: var(--size);
     height: var(--size);
-    background-color: #dedede;
+    background-color: var(--thrd-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid rgb(199, 198, 198);
+    /* border: 1px solid var(--bg-color); */
     font-size: calc(var(--size) * 0.65);
 }
 
 .Selected {
-    background-color: lightblue;
+    background-color:var(--scnd-color);
 }
 
 .Warning {
-    background-color: rgb(253, 249, 200);
+    background-color: var(--brgt-color);
 }
 
 .Clashing_Cell {
-    color: red;
+    color: var(--warn-color);
 }
 
 .Offending_Choice {
-    background-color: rgb(252, 187, 46);
-    color: red;
+    background-color: var(--scnd-color);
+    color: var(--warn-color);
 }
 
 .spin_to_correct {

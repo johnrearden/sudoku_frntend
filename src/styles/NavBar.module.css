@@ -1,24 +1,32 @@
 .NavBar {
-    background-color: #f0f0f0;
+    background-color: #f0f0f033;
     border-bottom: 1px solid #dadadf;
-    opacity: 0.8;
-    transition: .3s;
-}
-
-.NavBar:hover {
-    background-color: #e8e8e8;
-    opacity: 1;
-    border-bottom: 1px solid black;
+    transition: .2s;
 }
 
 .NavLink {
+    color: var(--fg-color);
     padding: 0 20px;
+}
+
+
+.NavLink:hover{
+    color: var(--fg-color);
+}
+
+.NavLink i {
+    color: var(--fg-color);
+}
+
+.NavLink i:hover {
+    color: var(--fg-color);
+}
+
+.NavLink span:hover, h4:hover {
+    border-bottom: 1px solid var(--fg-color);
 }
 
 .NavLink span {
     margin-left: 6px;
 }
 
-.Active i {
-    color: black;
-}

@@ -5,12 +5,16 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom/cjs/react-router-dom.min';
 import { CurrentUserProvider } from './contexts/CurrentUserContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 ReactDOM.render(
     <Router>
-        <CurrentUserProvider>
-            <App />
-        </CurrentUserProvider>
+        <ThemeProvider>
+            <CurrentUserProvider>
+                <App />
+            </CurrentUserProvider>
+        </ThemeProvider>
+
     </Router>
     ,
     document.getElementById('root')

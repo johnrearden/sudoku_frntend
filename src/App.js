@@ -9,12 +9,18 @@ import NotFound from './components/NotFound';
 import Home from './pages/puzzle/Home';
 import PuzzleContainer from './pages/puzzle/PuzzleContainer';
 import ProfilePage from './pages/profile/ProfilePage';
+import { useTheme } from './contexts/ThemeContext';
+
+import themes from './styles/Themes.module.css';
 
 
 function App() {
 
+    const theme = useTheme();
+    const themeStyles = theme === 'light' ? themes.lightTheme : themes.darkTheme;
+
     return (
-        <div className={styles.App}>
+        <div className={`${themeStyles} ${styles.App}`}>
             <NavBar />
             <Container className={styles.Main}>
                 <Switch>

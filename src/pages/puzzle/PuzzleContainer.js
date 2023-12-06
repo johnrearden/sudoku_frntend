@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom/cjs/react-router-dom'
+import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom'
 import { axiosReq } from '../../api/axiosDefaults';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import DigitChooser from '../../components/DigitChooser';
 import Puzzle from '../../components/Puzzle';
 import { CompletenessDisplay } from '../../components/CompletenessDisplay';
 import { checkCellValidity, getExhaustedDigits, replaceCharAt } from '../../utils/utils';
 import { DIFFICULTY_LEVELS } from '../../constants/constants';
 import styles from '../../styles/PuzzleContainer.module.css';
+import btnStyles from '../../styles/Button.module.css'
 
 
 const PuzzleContainer = () => {
 
     const { difficulty } = useParams();
-    const [puzzleData, setPuzzleData] = useState({});
+    const [puzzleData, setPuzzleData] = useState({
+        grid: '----'
+    });
     const [completeness, setCompleteness] = useState(0);
     const [exhaustedDigits, setExhaustedDigits] = useState([]);
+
+    const history = useHistory();
 
     // Current cell selected by user.
     const [selectedCellIndex, setSelectedCellIndex] = useState(0);
@@ -112,11 +117,12 @@ const PuzzleContainer = () => {
                 const { data } = await axiosReq.get(url);
                 setPuzzleData(data);
             } catch (err) {
-                console.log(err);
+                console.log(err.toJSON());
+                history.push('/');
             }
         }
         handleMount();
-    }, [difficulty])
+    }, [difficulty, history])
 
     useEffect(() => {
         if (puzzleData.grid != null) {
@@ -156,16 +162,16 @@ const PuzzleContainer = () => {
 
             </Row>
             <Row className="d-flex justify-content-center mt-2">
-                <button
-                    className={styles.icon_button}
+                <Button
+                    className={btnStyles.Button}
                     onClick={deleteSelectedCell}>
                     <i className="fa-solid fa-eraser"></i>
-                </button>
-                <button
-                    className={styles.icon_button}
+                </Button>
+                <Button
+                    className={btnStyles.Button}
                     onClick={handleUndo}>
                     <i className="fa-solid fa-arrow-rotate-left"></i>
-                </button>
+                </Button>
             </Row>
             
         </Container>

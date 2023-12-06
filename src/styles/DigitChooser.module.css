@@ -3,8 +3,8 @@
 }
 
 .Digit {
-    background-color: navy;
-    color: white;
+    background-color: var(--thrd-color);
+    color: var(--fg-color);
     border-radius: 10px;
     width: calc(var(--size) - 4px);
     height: calc(var(--size) - 4px);
@@ -15,8 +15,7 @@
 }
 
 .Inactive_Digit {
-    background-color: rgb(236, 236, 236);
-    color: rgb(211, 210, 210);
+    opacity: 0.3;
     border-radius: 10px;
     width: calc(var(--size) - 4px);
     height: calc(var(--size) - 4px);
@@ -27,7 +26,8 @@
 }
 
 .Digit:hover {
-    background-color: blue;
+    background-color: var(--scnd-color);
+    border: 1px solid var(--thrd-color);
     cursor: pointer;
 }
 
