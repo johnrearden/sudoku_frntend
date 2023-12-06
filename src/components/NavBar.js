@@ -15,7 +15,6 @@ const NavBar = () => {
 
     const theme = useTheme();
     const setTheme = useSetTheme();
-    console.log(theme);
 
     const [isChecked, setIsChecked] = useState(theme === 'light');
 
@@ -69,7 +68,7 @@ const NavBar = () => {
                     handleSignout();
                 }}>
                 <i className="fa-solid fa-person-walking-arrow-right"></i>
-                <span>Sign Out</span>
+                <span>Logout</span>
             </NavLink>
         </>)
 
@@ -90,6 +89,7 @@ const NavBar = () => {
                         
                         {/* Button to toggle light/dark theme */}
                         <button
+                            aria-label="theme-toggle-button"
                             className={`${btnStyles.Button}`}
                             onClick={handleThemeToggle}
                         >
