@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Navbar, Nav, Container, Form, Button } from 'react-bootstrap';
+import { Navbar, Nav, Container} from 'react-bootstrap';
 import { NavLink } from "react-router-dom";
 import styles from "../styles/NavBar.module.css";
 import btnStyles from "../styles/Button.module.css";
@@ -77,7 +77,7 @@ const NavBar = () => {
             <Container>
                 <NavLink to="/">
                     <Navbar.Brand>
-                        <h4>Sudoku</h4>
+                        <h2 className={styles.FreckleFaceFont}>Sudoku</h2>
                     </Navbar.Brand>
                 </NavLink>
                 <Navbar.Toggle

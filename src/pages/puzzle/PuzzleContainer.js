@@ -7,7 +7,7 @@ import Puzzle from '../../components/Puzzle';
 import { CompletenessDisplay } from '../../components/CompletenessDisplay';
 import { checkCellValidity, getExhaustedDigits, replaceCharAt } from '../../utils/utils';
 import { DIFFICULTY_LEVELS } from '../../constants/constants';
-import styles from '../../styles/PuzzleContainer.module.css';
+//import styles from '../../styles/PuzzleContainer.module.css';
 import btnStyles from '../../styles/Button.module.css'
 
 
@@ -15,7 +15,7 @@ const PuzzleContainer = () => {
 
     const { difficulty } = useParams();
     const [puzzleData, setPuzzleData] = useState({
-        grid: '----'
+        grid: Array(82).join('-')
     });
     const [completeness, setCompleteness] = useState(0);
     const [exhaustedDigits, setExhaustedDigits] = useState([]);
@@ -113,7 +113,7 @@ const PuzzleContainer = () => {
     useEffect(() => {
         const handleMount = async () => {
             try {
-                const url = `/get_random_existing_instance/${difficulty}/`;
+                const url = `/get_random_puzzle/${difficulty}/`;
                 const { data } = await axiosReq.get(url);
                 setPuzzleData(data);
             } catch (err) {

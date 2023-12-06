@@ -4,6 +4,10 @@
     transition: .2s;
 }
 
+.FreckleFaceFont {
+    font-family: "Freckle Face";
+}
+
 .NavLink {
     color: var(--fg-color);
     padding: 0 20px;

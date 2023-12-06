@@ -32,7 +32,7 @@
 }
 
 .spin_to_correct {
-    animation: letter_spin .2s;
+    animation: letter_spin 1s;
     animation-timing-function: linear;
     animation-fill-mode: forwards;
 }
@@ -42,14 +42,18 @@
         transform: rotateY(0deg);
     }
 
-    50% {
+    25% {
         transform: rotateY(90deg);
     }
 
-    to {
+    50% {
         box-shadow: inset 0px 0px 4px 2px var(--fg-color);
         color: var(--fg-color);
         transform: rotateY(0deg);
+    }
+
+    to {
+        opacity: 0.1;
     }
 }
 
