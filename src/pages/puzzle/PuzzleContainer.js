@@ -84,16 +84,6 @@ const PuzzleContainer = () => {
         }
     }
 
-    const deleteSelectedCell = () => {
-        setWarningGroup([]);
-        setClashingCell(-1);
-        const newGrid = replaceCharAt(puzzleData.grid, selectedCellIndex, '-');
-        setPuzzleData(prev => ({
-            ...prev,
-            grid: newGrid,
-        }))
-    }
-
     const handleUndo = () => {
         if (undoStack.length < 1) {
             alert('This is the original puzzle - can\'t undo from here')
@@ -178,11 +168,6 @@ return (
 
         </Row>
         <Row className="d-flex justify-content-center mt-3">
-            <Button
-                className={`${btnStyles.Button} mx-2`}
-                onClick={deleteSelectedCell}>
-                <i className="fa-solid fa-eraser"></i>
-            </Button>
             <Button
                 className={`${btnStyles.Button} mx-2`}
                 onClick={handleUndo}>
