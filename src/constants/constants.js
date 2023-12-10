@@ -4,3 +4,5 @@ export const DIFFICULTY_LEVELS = [
     'Hard',
     'Difficult',
 ]
+
+export const LCLSTRG_KEY = "puzzleData";

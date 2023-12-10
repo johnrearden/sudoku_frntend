@@ -6,6 +6,7 @@
 
 .FreckleFaceFont {
     font-family: "Freckle Face";
+    color: var(--fg-color);
 }
 
 .NavLink {

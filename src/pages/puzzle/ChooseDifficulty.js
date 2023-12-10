@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Row } from 'react-bootstrap'
 import btnStyles from '../../styles/Button.module.css'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom'
+import { LCLSTRG_KEY } from '../../constants/constants'
 
 
 const ChooseDifficulty = () => {
@@ -10,6 +11,11 @@ const ChooseDifficulty = () => {
 
     const handleClick = (event) => {
         const difficulty = event.target.getAttribute("data-difficulty");
+
+        // Remove any stored puzzle from localStorage - keep things simple -
+        // Selecting a new puzzle destroys the old one, if present
+        window.localStorage.removeItem(LCLSTRG_KEY);
+
         history.push(`/get_puzzle/${difficulty}`)
     }
 

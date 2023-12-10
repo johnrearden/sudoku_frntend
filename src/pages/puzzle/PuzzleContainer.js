@@ -9,6 +9,7 @@ import { checkCellValidity, getExhaustedDigits, replaceCharAt } from '../../util
 import { DIFFICULTY_LEVELS } from '../../constants/constants';
 //import styles from '../../styles/PuzzleContainer.module.css';
 import btnStyles from '../../styles/Button.module.css'
+import { LCLSTRG_KEY } from '../../constants/constants';
 
 
 const PuzzleContainer = () => {
@@ -59,10 +60,12 @@ const PuzzleContainer = () => {
             const index = selectedCellIndex;
             const grid = prevData.grid;
             const newGrid = replaceCharAt(grid, index, digit);
-            return {
+            const newData = {
                 ...prevData,
                 grid: newGrid,
             }
+            window.localStorage.setItem(LCLSTRG_KEY, JSON.stringify(newData));
+            return newData;
         })
 
         setUndoStack(prev => {
@@ -98,84 +101,97 @@ const PuzzleContainer = () => {
         }
         const itemToUndo = undoStack[undoStack.length - 1];
         const { index, previousValue } = itemToUndo;
-        setPuzzleData(prev => ({
-            ...prev,
-            grid: replaceCharAt(puzzleData.grid, index, previousValue)
-        }))
 
-        setUndoStack(prev => {
-            prev.pop()
-            return prev;
-        });
-        performValidityCheck(previousValue);
-    }
-
-    useEffect(() => {
-        const handleMount = async () => {
-            try {
-                const url = `/get_random_puzzle/${difficulty}/`;
-                const { data } = await axiosReq.get(url);
-                setPuzzleData(data);
-            } catch (err) {
-                console.log(err.toJSON());
-                history.push('/');
+        setPuzzleData(prev => {
+            const newData = {
+                ...prev,
+                grid: replaceCharAt(puzzleData.grid, index, previousValue)
             }
+            window.localStorage.setItem(LCLSTRG_KEY, JSON.stringify(newData));
+            return newData;
+        })
+    
+
+    setUndoStack(prev => {
+        prev.pop()
+        return prev;
+    });
+    performValidityCheck(previousValue);
+}
+
+useEffect(() => {
+    const handleMount = async () => {
+        try {
+            const url = `/get_random_puzzle/${difficulty}/`;
+            const { data } = await axiosReq.get(url);
+            setPuzzleData(data);
+        } catch (err) {
+            console.log(err.toJSON());
+            history.push('/');
         }
+    }
+    const previousPuzzle = window.localStorage.getItem(LCLSTRG_KEY);
+    if (previousPuzzle) {
+        const puzzleData = JSON.parse(previousPuzzle);
+        setPuzzleData(puzzleData);
+    } else {
         handleMount();
-    }, [difficulty, history])
+    }
+    
+}, [difficulty, history])
 
-    useEffect(() => {
-        if (puzzleData.grid != null) {
-            const emptyCells = puzzleData.grid.split('').filter(chr => chr !== '-');
-            setCompleteness(emptyCells.length / 81 * 100);
-        }
-        if (puzzleData.grid) {
-            setExhaustedDigits(getExhaustedDigits(puzzleData.grid));
-        }
-    }, [puzzleData])
+useEffect(() => {
+    if (puzzleData.grid != null) {
+        const emptyCells = puzzleData.grid.split('').filter(chr => chr !== '-');
+        setCompleteness(emptyCells.length / 81 * 100);
+    }
+    if (puzzleData.grid) {
+        setExhaustedDigits(getExhaustedDigits(puzzleData.grid));
+    }
+}, [puzzleData])
 
-    return (
-        <Container>
-            <Row className="d-flex justify-content-center mt-3">
-                <p>{DIFFICULTY_LEVELS[difficulty].toUpperCase()}</p>
-            </Row>
-            <Row className="mt-2">
-                <Col xs={{ span: 8, offset: 2}} sm={{ span: 6, offset: 3}} md={{ span: 4, offset: 4 }}>
-                    <CompletenessDisplay
-                        completenessPercentage={Math.round(completeness)}
-                        shorthand />
-                </Col>
-            </Row>
-            <Row className="d-flex justify-content-center mt-4">
-                <Puzzle
-                    grid={puzzleData?.grid}
-                    selectedCell={selectedCellIndex}
-                    handleCellSelection={handleCellSelection}
-                    warningGroup={warningGroup}
-                    clashingCell={clashingCell}
-                    completed={completeness === 100} />
-            </Row>
-            <Row className="d-flex justify-content-center mt-3">
-                <DigitChooser
-                    exhaustedDigits={ exhaustedDigits }
-                    handleDigitChoice={handleDigitChoice} />
+return (
+    <Container>
+        <Row className="d-flex justify-content-center mt-3">
+            <p>{DIFFICULTY_LEVELS[difficulty].toUpperCase()}</p>
+        </Row>
+        <Row className="mt-2">
+            <Col xs={{ span: 8, offset: 2 }} sm={{ span: 6, offset: 3 }} md={{ span: 4, offset: 4 }}>
+                <CompletenessDisplay
+                    completenessPercentage={Math.round(completeness)}
+                    shorthand />
+            </Col>
+        </Row>
+        <Row className="d-flex justify-content-center mt-4">
+            <Puzzle
+                grid={puzzleData?.grid}
+                selectedCell={selectedCellIndex}
+                handleCellSelection={handleCellSelection}
+                warningGroup={warningGroup}
+                clashingCell={clashingCell}
+                completed={completeness === 100} />
+        </Row>
+        <Row className="d-flex justify-content-center mt-3">
+            <DigitChooser
+                exhaustedDigits={exhaustedDigits}
+                handleDigitChoice={handleDigitChoice} />
 
-            </Row>
-            <Row className="d-flex justify-content-center mt-3">
-                <Button
-                    className={`${btnStyles.Button} mx-2`}
-                    onClick={deleteSelectedCell}>
-                    <i className="fa-solid fa-eraser"></i>
-                </Button>
-                <Button
-                    className={`${btnStyles.Button} mx-2`}
-                    onClick={handleUndo}>
-                    <i className="fa-solid fa-arrow-rotate-left"></i>
-                </Button>
-            </Row>
-            
-        </Container>
-    )
+        </Row>
+        <Row className="d-flex justify-content-center mt-3">
+            <Button
+                className={`${btnStyles.Button} mx-2`}
+                onClick={deleteSelectedCell}>
+                <i className="fa-solid fa-eraser"></i>
+            </Button>
+            <Button
+                className={`${btnStyles.Button} mx-2`}
+                onClick={handleUndo}>
+                <i className="fa-solid fa-arrow-rotate-left"></i>
+            </Button>
+        </Row>
+
+    </Container>
+)
 }
 
 export default PuzzleContainer
