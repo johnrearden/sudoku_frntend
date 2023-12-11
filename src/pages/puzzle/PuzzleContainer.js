@@ -10,6 +10,7 @@ import { DIFFICULTY_LEVELS } from '../../constants/constants';
 //import styles from '../../styles/PuzzleContainer.module.css';
 import btnStyles from '../../styles/Button.module.css'
 import { LCLSTRG_KEY } from '../../constants/constants';
+import { useCurrentUser } from '../../contexts/CurrentUserContext';
 
 
 const PuzzleContainer = () => {
@@ -22,6 +23,7 @@ const PuzzleContainer = () => {
     const [exhaustedDigits, setExhaustedDigits] = useState([]);
 
     const history = useHistory();
+    const currentUser = useCurrentUser();
 
     // Current cell selected by user.
     const [selectedCellIndex, setSelectedCellIndex] = useState(0);
@@ -132,13 +134,30 @@ useEffect(() => {
 
 useEffect(() => {
     if (puzzleData.grid != null) {
+
+        console.log(currentUser);
+        console.log(puzzleData);
+
         const emptyCells = puzzleData.grid.split('').filter(chr => chr !== '-');
-        setCompleteness(emptyCells.length / 81 * 100);
+        const completeness = emptyCells.length / 81 * 100;
+        if (completeness >= 100) {
+            // Puzzle is complete
+            const formData = new FormData();
+            formData.append("owner", currentUser?.pk);
+            formData.append("puzzle", puzzleData.id);
+            formData.append("grid", puzzleData.grid);
+            formData.append("started_on", puzzleData.start_time);
+            formData.append("completed_at", new Date().toISOString());
+            formData.append("completed", "true");
+            
+            axiosReq.post('/create_puzzle_instance/', formData);
+        }
+        setCompleteness(completeness);
     }
     if (puzzleData.grid) {
         setExhaustedDigits(getExhaustedDigits(puzzleData.grid));
     }
-}, [puzzleData])
+}, [puzzleData, currentUser])
 
 return (
     <Container>
