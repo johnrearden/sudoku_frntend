@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom'
 import { LCLSTRG_KEY } from '../../constants/constants'
 
 
-const ChooseDifficulty = () => {
+const ChooseDifficulty = ({ message }) => {
 
     const history = useHistory();
 
@@ -22,7 +22,7 @@ const ChooseDifficulty = () => {
     return (
         <>
             <Row className="d-flex justify-content-center text-center mt-5">
-                <h5>Choose Difficulty Level</h5>
+                <h5>{ message || 'Choose Difficulty Level'} </h5>
             </Row>
 
             <Row className="d-flex justify-content-center mt-2">

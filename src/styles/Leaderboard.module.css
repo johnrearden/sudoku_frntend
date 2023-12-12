@@ -1,0 +1,14 @@
+.RankingRow {
+    color: var(--fg-color);
+}
+
+.RankingHeader {
+    color: var(--scnd-color);
+    font-weight: bold;
+}
+
+.UserRanking {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: yellowgreen;
+}

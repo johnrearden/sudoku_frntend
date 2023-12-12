@@ -12,6 +12,7 @@ import ProfilePage from './pages/profile/ProfilePage';
 import { useTheme } from './contexts/ThemeContext';
 
 import themes from './styles/Themes.module.css';
+import Leaderboard from './pages/puzzle/Leaderboard';
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
                         render={() => (
                             <Home />
                         )} />
+                    <Route exact path="/leaderboard/:id" render={() => <Leaderboard />}/>
                     <Route exact path="/profile/:id" render={() => <ProfilePage />}/>
                     <Route exact path="/signin" render={() => <SignInForm />} />
                     <Route exact path="/signup" render={() => <SignUpForm />} />

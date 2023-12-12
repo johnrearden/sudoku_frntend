@@ -132,32 +132,42 @@ useEffect(() => {
     
 }, [difficulty, history])
 
+
+// Update completeness each time the grid changes
 useEffect(() => {
     if (puzzleData.grid != null) {
-
-        console.log(currentUser);
-        console.log(puzzleData);
-
         const emptyCells = puzzleData.grid.split('').filter(chr => chr !== '-');
         const completeness = emptyCells.length / 81 * 100;
-        if (completeness >= 100) {
-            // Puzzle is complete
-            const formData = new FormData();
-            formData.append("owner", currentUser?.pk);
-            formData.append("puzzle", puzzleData.id);
-            formData.append("grid", puzzleData.grid);
-            formData.append("started_on", puzzleData.start_time);
-            formData.append("completed_at", new Date().toISOString());
-            formData.append("completed", "true");
-            
-            axiosReq.post('/create_puzzle_instance/', formData);
-        }
         setCompleteness(completeness);
     }
     if (puzzleData.grid) {
         setExhaustedDigits(getExhaustedDigits(puzzleData.grid));
     }
 }, [puzzleData, currentUser])
+
+
+// Submit the puzzle if completeness hits 100%
+useEffect(() => {
+    const submitCompletedPuzzle = async() => {
+        const formData = new FormData();
+        formData.append("owner", currentUser?.pk);
+        formData.append("puzzle", puzzleData.id);
+        formData.append("grid", puzzleData.grid);
+        formData.append("started_on", puzzleData.start_time);
+        formData.append("completed_at", new Date().toISOString());
+        formData.append("completed", "true");
+        
+        try {
+            const {data} = await axiosReq.post('/create_puzzle_instance/', formData);
+            window.setTimeout(() => history.push(`/leaderboard/${data.id}`), 2000);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    if (completeness >= 100) {
+        submitCompletedPuzzle();
+    }
+}, [completeness, currentUser, puzzleData, history]) 
 
 return (
     <Container>
