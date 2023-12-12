@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom/cjs/react-router-dom'
 import { axiosReq } from '../../api/axiosDefaults';
-import { Row, Table } from 'react-bootstrap';
+import { Col, Row, Table } from 'react-bootstrap';
 import styles from '../../styles/Leaderboard.module.css';
 import ChooseDifficulty from './ChooseDifficulty';
+import ReactCountryFlag from 'react-country-flag';
 
 
 const Leaderboard = () => {
@@ -17,7 +18,6 @@ const Leaderboard = () => {
             try {
                 const { data } = await axiosReq.get(`/get_leaderboard/${id}/`);
                 setData(data);
-                console.log(data);
             } catch (err) {
                 console.log(err);
             }
@@ -34,6 +34,18 @@ const Leaderboard = () => {
             <td>{index + 1}</td>
             <td>{instance.owner_name}</td>
             <td>{instance.time_taken}</td>
+            <td>
+                <ReactCountryFlag
+                    className="emojiFlag"
+                    countryCode={instance.country}
+                    svg
+                    style={{
+                        fontSize: '1.5em',
+                        lineHeight: '1.5em',
+                    }}
+                    aria-label="United States"
+                ></ReactCountryFlag>
+            </td>
         </tr>
     ));
 
@@ -45,10 +57,11 @@ const Leaderboard = () => {
                 <td>...</td>
                 <td>............</td>
                 <td>............</td>
+                <td>......</td>
             </tr>
         ))
-    } 
-    
+    }
+
     if (data && data.ranking > data.top_n.length) {
         tableRows.push((
             <tr
@@ -57,6 +70,18 @@ const Leaderboard = () => {
                 <td>{data.ranking}</td>
                 <td>{data.puzzle_instance.owner_name}</td>
                 <td>{data.puzzle_instance.time_taken}</td>
+                <td>
+                    <ReactCountryFlag
+                        className="emojiFlag"
+                        countryCode={data.puzzle_instance.country}
+                        svg
+                        style={{
+                            fontSize: '1.5em',
+                            lineHeight: '1.5em',
+                        }}
+                        aria-label="United States"
+                    ></ReactCountryFlag>
+                </td>
             </tr>
         ))
     }
@@ -64,23 +89,33 @@ const Leaderboard = () => {
     return (
         <>
             <Row className="d-flex justify-content-center mt-4">
-                <h3>Easy Puzzle Leaderboard</h3>
+                <h4>Leaderboard</h4>
             </Row>
+            {data && (
+                <Row className="d-flex justify-content-center mt-4">
+                    <h6>{data.puzzle_instance.difficulty} Level</h6>
+                </Row>
+            )}
+
             <Row className="d-flex justify-content-center mt-2">
-                <Table borderless size="sm" className="text-center">
-                    <thead>
-                        <tr className={styles.RankingHeader}>
-                            <td>Rank</td>
-                            <td>Player</td>
-                            <td>Time</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {tableRows}
-                    </tbody>
-                </Table>
+                <Col md={8}>
+                    <Table borderless size="sm" className="text-center">
+                        <thead>
+                            <tr className={styles.RankingHeader}>
+                                <td>Rank</td>
+                                <td>Player</td>
+                                <td>Time</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {tableRows}
+                        </tbody>
+                    </Table>
+                </Col>
+
             </Row>
             <ChooseDifficulty message="Play again?" />
+
         </>
     )
 }

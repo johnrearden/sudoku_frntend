@@ -10,6 +10,7 @@ import { DIFFICULTY_LEVELS } from '../../constants/constants';
 import btnStyles from '../../styles/Button.module.css'
 import { LCLSTRG_KEY } from '../../constants/constants';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
+import Timer from '../../components/Timer';
 
 
 const PuzzleContainer = () => {
@@ -110,12 +111,14 @@ const PuzzleContainer = () => {
     performValidityCheck(previousValue);
 }
 
+// Load data on mount.
 useEffect(() => {
     const handleMount = async () => {
         try {
             const url = `/get_random_puzzle/${difficulty}/`;
             const { data } = await axiosReq.get(url);
             setPuzzleData(data);
+
         } catch (err) {
             console.log(err.toJSON());
             history.push('/');
@@ -172,7 +175,8 @@ useEffect(() => {
 return (
     <Container>
         <Row className="d-flex justify-content-center mt-3">
-            <p>{DIFFICULTY_LEVELS[difficulty].toUpperCase()}</p>
+            <p className="mr-5">{DIFFICULTY_LEVELS[difficulty].toUpperCase()}</p>
+            <Timer startTime={puzzleData.start_time}></Timer>
         </Row>
         <Row className="mt-2">
             <Col xs={{ span: 8, offset: 2 }} sm={{ span: 6, offset: 3 }} md={{ span: 4, offset: 4 }}>

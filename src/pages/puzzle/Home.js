@@ -4,6 +4,7 @@ import { LCLSTRG_KEY } from '../../constants/constants'
 import { NavLink } from 'react-router-dom/cjs/react-router-dom'
 import styles from '../../styles/NavBar.module.css';
 import { Row } from 'react-bootstrap';
+import ReactCountryFlag from 'react-country-flag';
 
 const Home = () => {
 
@@ -11,7 +12,6 @@ const Home = () => {
 
     useEffect(() => {
         const previousPuzzle = window.localStorage.getItem(LCLSTRG_KEY);
-        console.log('previousPuzzle', JSON.stringify(previousPuzzle, null, 2))
         if (previousPuzzle) {
             const puzzleData = JSON.parse(previousPuzzle);
             setPrevPuzzle(puzzleData);
@@ -33,10 +33,7 @@ const Home = () => {
                         <i className="fa-solid fa-arrow-rotate-left ml-1"></i>                    </NavLink>
                 )}
             </Row>
-
-
         </>
-
     )
 }
 

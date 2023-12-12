@@ -29,22 +29,22 @@ const ChooseDifficulty = ({ message }) => {
                 <Button
                     onClick={handleClick}
                     data-difficulty="0"
-                    className={btnStyles.Button}
+                    className={`mx-2 ${btnStyles.Button}`}
                 >Easy</Button>
                 <Button
                     onClick={handleClick}
                     data-difficulty="1"
-                    className={btnStyles.Button}
+                    className={`mx-2 ${btnStyles.Button}`}
                 >Medium</Button>
                 <Button
                     onClick={handleClick}
                     data-difficulty="2"
-                    className={btnStyles.Button}
+                    className={`mx-2 ${btnStyles.Button}`}
                 >Hard</Button>
                 <Button
                     onClick={handleClick}
                     data-difficulty="3"
-                    className={btnStyles.Button}
+                    className={`mx-2 ${btnStyles.Button}`}
                 >Vicious</Button>
             </Row>
 
