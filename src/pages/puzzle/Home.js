@@ -7,10 +7,11 @@ import { Row } from 'react-bootstrap';
 
 const Home = () => {
 
-    const [prevPuzzle, setPrevPuzzle] = useState({});
+    const [prevPuzzle, setPrevPuzzle] = useState(null);
 
     useEffect(() => {
         const previousPuzzle = window.localStorage.getItem(LCLSTRG_KEY);
+        console.log('previousPuzzle', JSON.stringify(previousPuzzle, null, 2))
         if (previousPuzzle) {
             const puzzleData = JSON.parse(previousPuzzle);
             setPrevPuzzle(puzzleData);

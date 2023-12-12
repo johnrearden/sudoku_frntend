@@ -7,7 +7,6 @@ import Puzzle from '../../components/Puzzle';
 import { CompletenessDisplay } from '../../components/CompletenessDisplay';
 import { checkCellValidity, getExhaustedDigits, replaceCharAt } from '../../utils/utils';
 import { DIFFICULTY_LEVELS } from '../../constants/constants';
-//import styles from '../../styles/PuzzleContainer.module.css';
 import btnStyles from '../../styles/Button.module.css'
 import { LCLSTRG_KEY } from '../../constants/constants';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
@@ -165,6 +164,7 @@ useEffect(() => {
         }
     }
     if (completeness >= 100) {
+        window.localStorage.removeItem(LCLSTRG_KEY);
         submitCompletedPuzzle();
     }
 }, [completeness, currentUser, puzzleData, history]) 

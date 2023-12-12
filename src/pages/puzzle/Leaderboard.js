@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom/cjs/react-router-dom'
 import { axiosReq } from '../../api/axiosDefaults';
-import { Col, Row, Table } from 'react-bootstrap';
+import { Row, Table } from 'react-bootstrap';
 import styles from '../../styles/Leaderboard.module.css';
 import ChooseDifficulty from './ChooseDifficulty';
+
 
 const Leaderboard = () => {
 
@@ -22,21 +23,21 @@ const Leaderboard = () => {
             }
         }
         handleMount();
-    }, [])
+    }, [id])
 
 
 
     const tableRows = data && data.top_n.map((instance, index) => (
         <tr
             key={index}
-            className={data.ranking === index + 1 ? styles.UserRanking : styles.RankingRow}>
+            className={data.ranking === index ? styles.UserRanking : styles.RankingRow}>
             <td>{index + 1}</td>
             <td>{instance.owner_name}</td>
             <td>{instance.time_taken}</td>
         </tr>
     ));
 
-    if (data && data.ranking > data.top_n.length) {
+    if (data && data.ranking > data.top_n.length + 1) {
         tableRows.push((
             <tr
                 key={tableRows.length + 1}
@@ -46,6 +47,9 @@ const Leaderboard = () => {
                 <td>............</td>
             </tr>
         ))
+    } 
+    
+    if (data && data.ranking > data.top_n.length) {
         tableRows.push((
             <tr
                 key={tableRows.length + 2}
@@ -76,7 +80,7 @@ const Leaderboard = () => {
                     </tbody>
                 </Table>
             </Row>
-            <ChooseDifficulty message="Play again?"/>
+            <ChooseDifficulty message="Play again?" />
         </>
     )
 }

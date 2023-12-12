@@ -55,7 +55,7 @@ const SignInForm = () => {
                 <Container className={`${appStyles.Content}`}>
                     <h1 className={styles.Header}>Sign In</h1>
 
-                    <Form onSubmit={handleSubmit}>
+                    <Form onSubmit={handleSubmit} className="text-center">
                         <Form.Group controlId="username">
                             <Form.Label className="d-none">User Name</Form.Label>
                             <Form.Control
@@ -84,7 +84,7 @@ const SignInForm = () => {
                             <Alert variant="warning" key={idx}>{message}</Alert>
                         ))}
 
-                        <Button className={`${styles.Button} ${btnStyles.Wide} ${btnStyles.Bright}`} type="submit">
+                        <Button className={`${btnStyles.Button} ${styles.HalfWidth}`}  type="submit">
                             Sign In
                         </Button>
                         {errors.non_field_errors?.map((message, idx) => (

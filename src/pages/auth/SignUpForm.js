@@ -47,7 +47,7 @@ const SignUpForm = () => {
                 <Container className={`${appStyles.Content} p-4 `}>
                     <h1 className={styles.Header}>sign up</h1>
 
-                    <Form onSubmit={handleSubmit}>
+                    <Form onSubmit={handleSubmit} className="text-center">
                         <Form.Group controlId="username">
                             <Form.Label className="d-none">Email address</Form.Label>
                             <Form.Control
@@ -90,7 +90,7 @@ const SignUpForm = () => {
                             <Alert variant="warning" key={idx}>{message}</Alert>
                         ))}
 
-                        <Button className={`${styles.Button} ${btnStyles.Wide} ${btnStyles.Bright}`} type="submit">
+                        <Button className={`${btnStyles.Button} ${styles.HalfWidth}`} type="submit">
                             Sign Up
                         </Button>
                         {errors.non_field_errors?.map((message, idx) => (
