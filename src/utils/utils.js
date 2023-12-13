@@ -147,3 +147,21 @@ export const getExhaustedDigits = (grid) => {
     }
     return exhaustedDigits;
 }
+
+export const millisToTimeString = (time) => {
+    if (!time) return '00:00';
+    let secs = time / 1000;
+    if (secs > 24 * 60 * 60) {
+        return '> 1 day'
+    }
+    console.log('secs', JSON.stringify(secs, null, 2))
+    const hours = Math.floor(secs / 3600);
+    console.log('hours', JSON.stringify(hours, null, 2))
+    const hourString = hours ? `${hours}:` : '';
+    secs = secs - hours * 3600;
+    const minutes = Math.floor(secs / 60);
+    console.log('minutes', JSON.stringify(minutes, null, 2))
+    secs = Math.floor(secs - minutes * 60);
+    console.log('secs', JSON.stringify(secs, null, 2))
+    return `${hourString}${String(minutes).padStart(1, '0')}:${String(secs).padStart(2, '0')}`;
+}

@@ -6,6 +6,7 @@ import { Col, Row, Table } from 'react-bootstrap';
 import styles from '../../styles/Leaderboard.module.css';
 import ChooseDifficulty from './ChooseDifficulty';
 import ReactCountryFlag from 'react-country-flag';
+import { millisToTimeString } from '../../utils/utils';
 
 
 const Leaderboard = () => {
@@ -33,7 +34,7 @@ const Leaderboard = () => {
             className={data.ranking === index ? styles.UserRanking : styles.RankingRow}>
             <td>{index + 1}</td>
             <td>{instance.owner_name}</td>
-            <td>{instance.time_taken}</td>
+            <td>{millisToTimeString(instance.duration)}</td>
             <td>
                 <ReactCountryFlag
                     className="emojiFlag"
@@ -69,7 +70,7 @@ const Leaderboard = () => {
                 className={styles.UserRanking}>
                 <td>{data.ranking}</td>
                 <td>{data.puzzle_instance.owner_name}</td>
-                <td>{data.puzzle_instance.time_taken}</td>
+                <td>{millisToTimeString(data.puzzle_instance.duration)}</td>
                 <td>
                     <ReactCountryFlag
                         className="emojiFlag"
@@ -114,7 +115,7 @@ const Leaderboard = () => {
                 </Col>
 
             </Row>
-            <ChooseDifficulty message="Play again?" />
+            <ChooseDifficulty message="Play again?" fadeIn/>
 
         </>
     )

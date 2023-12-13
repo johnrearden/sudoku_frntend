@@ -1,11 +1,12 @@
 import React from 'react'
 import { Button, Row } from 'react-bootstrap'
 import btnStyles from '../../styles/Button.module.css'
+import styles from '../../styles/ChooseDifficulty.module.css';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom'
 import { LCLSTRG_KEY } from '../../constants/constants'
 
 
-const ChooseDifficulty = ({ message }) => {
+const ChooseDifficulty = ({ message, fadeIn }) => {
 
     const history = useHistory();
 
@@ -20,9 +21,9 @@ const ChooseDifficulty = ({ message }) => {
     }
 
     return (
-        <>
+        <div className={fadeIn && styles.FadeIn}>
             <Row className="d-flex justify-content-center text-center mt-5">
-                <h5>{ message || 'Choose Difficulty Level'} </h5>
+                <h5>{message || 'Choose Difficulty Level'} </h5>
             </Row>
 
             <Row className="d-flex justify-content-center mt-2">
@@ -47,8 +48,7 @@ const ChooseDifficulty = ({ message }) => {
                     className={`mx-2 ${btnStyles.Button}`}
                 >Vicious</Button>
             </Row>
-
-        </>
+        </div>
     )
 }
 

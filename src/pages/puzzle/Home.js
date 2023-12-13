@@ -4,7 +4,6 @@ import { LCLSTRG_KEY } from '../../constants/constants'
 import { NavLink } from 'react-router-dom/cjs/react-router-dom'
 import styles from '../../styles/NavBar.module.css';
 import { Row } from 'react-bootstrap';
-import ReactCountryFlag from 'react-country-flag';
 
 const Home = () => {
 

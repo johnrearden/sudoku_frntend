@@ -8,6 +8,7 @@ import { CompletenessDisplay } from '../../components/CompletenessDisplay';
 import { checkCellValidity, getExhaustedDigits, replaceCharAt } from '../../utils/utils';
 import { DIFFICULTY_LEVELS } from '../../constants/constants';
 import btnStyles from '../../styles/Button.module.css'
+import styles from '../../styles/PuzzleContainer.module.css'
 import { LCLSTRG_KEY } from '../../constants/constants';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
 import Timer from '../../components/Timer';
@@ -20,6 +21,8 @@ const PuzzleContainer = () => {
         grid: Array(82).join('-')
     });
     const [completeness, setCompleteness] = useState(0);
+
+    // Digits already placed 9 times in the puzzle
     const [exhaustedDigits, setExhaustedDigits] = useState([]);
 
     const history = useHistory();
@@ -172,6 +175,12 @@ useEffect(() => {
     }
 }, [completeness, currentUser, puzzleData, history]) 
 
+// Set success message style
+const successStyle = 
+    completeness === 100 
+    ? `${styles.SuccessMessage} ${styles.RevealMessage}` 
+    : `${styles.SuccessMessage}`;
+
 return (
     <Container>
         <Row className="d-flex justify-content-center mt-3">
@@ -185,7 +194,7 @@ return (
                     shorthand />
             </Col>
         </Row>
-        <Row className="d-flex justify-content-center mt-4">
+        <Row className="d-flex justify-content-center mt-4 position-relative">
             <Puzzle
                 grid={puzzleData?.grid}
                 selectedCell={selectedCellIndex}
@@ -193,6 +202,9 @@ return (
                 warningGroup={warningGroup}
                 clashingCell={clashingCell}
                 completed={completeness === 100} />
+            <div className={successStyle}>
+                <h1>Well Done!</h1>
+            </div>
         </Row>
         <Row className="d-flex justify-content-center mt-3">
             <DigitChooser
